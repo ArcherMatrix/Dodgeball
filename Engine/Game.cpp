@@ -1,31 +1,73 @@
-/****************************************************************************************** 
- *	Chili DirectX Framework Version 16.07.20											  *	
- *	Game.cpp																			  *
- *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
- *																						  *
- *	This file is part of The Chili DirectX Framework.									  *
- *																						  *
- *	The Chili DirectX Framework is free software: you can redistribute it and/or modify	  *
- *	it under the terms of the GNU General Public License as published by				  *
- *	the Free Software Foundation, either version 3 of the License, or					  *
- *	(at your option) any later version.													  *
- *																						  *
- *	The Chili DirectX Framework is distributed in the hope that it will be useful,		  *
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of						  *
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the						  *
- *	GNU General Public License for more details.										  *
- *																						  *
- *	You should have received a copy of the GNU General Public License					  *
- *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
- ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd )
 {
+   
+    for (int i = 0; i < numOfDodgeballs;i++)
+    {
+        dodgeballBallSpawner.push_back(Dodgeball(gfx.ScreenWidth,gfx.ScreenHeight,63,66,rd));
+    }
+}
+
+
+void Game::MovePlayer()
+{
+    if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+    {
+        dodger.posX = dodger.posX + 3;
+    }
+    if (wnd.kbd.KeyIsPressed(VK_LEFT))
+    {
+        dodger.posX = dodger.posX - 3;
+    }
+    if (wnd.kbd.KeyIsPressed(VK_DOWN))
+    {
+        dodger.posY = dodger.posY + 3;
+    }
+    if (wnd.kbd.KeyIsPressed(VK_UP))
+    {
+        dodger.posY = dodger.posY - 3;
+    }
+    
+    if (dodger.posX < 0)
+    {
+        dodger.posX = 0;
+    }
+    if (dodger.posX + dodger.width >= gfx.ScreenWidth)
+    {
+        dodger.posX = gfx.ScreenWidth - 64;
+    }
+    if (dodger.posY < 0)
+    {
+        dodger.posY = 0;
+    }
+    if (dodger.posY + dodger.height >= gfx.ScreenHeight)
+    {
+        dodger.posY = gfx.ScreenHeight - dodger.height;
+    }
+}
+
+void Game::WinCondition()
+{
+    if (game_counter==25)
+    {
+        gamewon = true;
+    }
+}
+
+void Game::GameWon()
+{
+    gfx.DrawSprite(100, 100, winScreen,Colors::Magenta);
+}
+
+void Game::GameOver()
+{
+    gfx.DrawSprite(100, 100, endScreen);
 }
 
 void Game::Go()
@@ -38,8 +80,47 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+    MovePlayer();
+    WinCondition();
+    
+    
+    for (Dodgeball d : dodgeballBallSpawner)
+    {
+        if (d.CollisionCheck(dodger))
+        {
+            d.Collided=true;
+        }
+    }
+    for (Dodgeball d : dodgeballBallSpawner)
+    {
+        d.Movement(gfx);
+    }
 }
 
 void Game::ComposeFrame()
 {
+    if (!gameStart)
+    {
+        gfx.DrawSprite(144, 350, startScreen,Colors::Magenta);
+        if (wnd.kbd.KeyIsPressed(VK_RETURN))
+        {
+            gameStart = true;
+        }
+    }
+    else
+    {
+        gfx.DrawSprite(dodger.posX, dodger.posY, player, Color(195, 195, 195));
+        
+        if (!gameover)
+        {
+
+            for (Dodgeball d : dodgeballBallSpawner)
+            {
+                if (!(d.Collided))
+                {
+                    d.Draw(gfx, ball);
+                }
+            }
+        }
+    }
 }

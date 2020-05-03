@@ -252,6 +252,37 @@ Graphics::~Graphics()
 	if( pImmediateContext ) pImmediateContext->ClearState();
 }
 
+void Graphics::DrawSprite(float x, float y, Surface& s)
+{
+	const int width = s.GetWidth();
+	const int height = s.GetHeight();
+	for (int sy = 0; sy < height; sy++)
+	{
+		for (int sx = 0; sx < width; sx++)
+		{
+			PutPixel(x + sx, y + sy, s.GetPixel(sx, sy));
+		}
+	}
+}
+
+void Graphics::DrawSprite(float x, float y, Surface& s, Color chroma)
+{
+	const int width = s.GetWidth();
+	const int height = s.GetHeight();
+	for (int sy = 0; sy < height; sy++)
+	{
+		for (int sx = 0; sx < width; sx++)
+		{
+			const Color pixel = s.GetPixel(sx,sy);
+			if (pixel != chroma)
+			{
+				PutPixel(x + sx, y + sy, s.GetPixel(sx, sy));
+			}
+		}
+
+	}
+}
+
 void Graphics::EndFrame()
 {
 	HRESULT hr;
@@ -314,6 +345,26 @@ void Graphics::PutPixel( int x,int y,Color c )
 	assert( y >= 0 );
 	assert( y < int( Graphics::ScreenHeight ) );
 	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
+}
+
+void Graphics::DrawRect(float x0, float y0, float x1, float y1, Color c)
+{
+	if (x0 > x1)
+	{
+		std::swap(x0, x1);
+	}
+	if (y0 > y1)
+	{
+		std::swap(y0, y1);
+	}
+
+	for (int y = y0; y < y1; ++y)
+	{
+		for (int x = x0; x < x1; ++x)
+		{
+			PutPixel(x, y, c);
+		}
+	}
 }
 
 

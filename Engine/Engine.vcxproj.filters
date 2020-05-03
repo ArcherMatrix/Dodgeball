@@ -57,6 +57,18 @@
     <ClInclude Include="COMInitializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dodgeball.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -86,6 +98,21 @@
     <ClCompile Include="COMInitializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Surface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceOD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dodgeball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">
@@ -102,6 +129,33 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Chili.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\LudiGame\LudiGame\token_blue.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\LudiGame\LudiGame\small blue.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="player.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Dodgeball.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="gameover.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="start.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="token_blue.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="victory.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="victory2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -1,28 +1,11 @@
-/****************************************************************************************** 
- *	Chili DirectX Framework Version 16.07.20											  *	
- *	Game.h																				  *
- *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
- *																						  *
- *	This file is part of The Chili DirectX Framework.									  *
- *																						  *
- *	The Chili DirectX Framework is free software: you can redistribute it and/or modify	  *
- *	it under the terms of the GNU General Public License as published by				  *
- *	the Free Software Foundation, either version 3 of the License, or					  *
- *	(at your option) any later version.													  *
- *																						  *
- *	The Chili DirectX Framework is distributed in the hope that it will be useful,		  *
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of						  *
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the						  *
- *	GNU General Public License for more details.										  *
- *																						  *
- *	You should have received a copy of the GNU General Public License					  *
- *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
- ******************************************************************************************/
 #pragma once
 
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "Player.h"
+#include "Dodgeball.h"
+
 
 class Game
 {
@@ -34,13 +17,38 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
-	/********************************/
+    /********************************/
 	/*  User Functions              */
+    void MovePlayer();
+    void WinCondition();
+    void GameWon();
+    void GameOver();
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
+    std::mt19937 rng;
+    std::uniform_real_distribution<float> xDist;
+    std::uniform_real_distribution<float> yDist;
+    std::uniform_real_distribution<float> yVel;
+    std::uniform_real_distribution<float> xVel;
+    std::random_device rd;
 	/********************************/
 	/*  User Variables              */
+    Player dodger = Player(400,400,32,32);
+    Surface player = Surface("player.bmp");
+    Surface ball = Surface("Dodgeball.bmp");
+    Surface startScreen = Surface("start.bmp");
+    Surface winScreen = Surface("victory2.bmp");
+    Surface endScreen = Surface("gameover.bmp");
+    
+
+    std::vector<Dodgeball> dodgeballBallSpawner;
+    Dodgeball test = Dodgeball(600,600,63,67,1,1);
+    int numOfDodgeballs = 0;
+    bool gameStart = false;
+    bool gameover = false;
+    bool gamewon = false;
+    int game_counter = 0;
 	/********************************/
 };
